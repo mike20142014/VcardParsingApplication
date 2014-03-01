@@ -45,12 +45,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private String addedText;
 	private String addedTextVcard;
 	private String myPhoneNumber;
-	
+
 	public final static int RESULT_PICK_CONTACT_CONTACTBOOK = 1;
 	public final static int RESULT_PICK_CONTACT_DESTINATIONBOOK = 2;
 	public final static int SET_RESULTS_FOR_CONTACT_CONTACTBOOK = 3;
 	public final static int SEND_VCARD = 4;
-	
+
 	final static String VCARDTYPE = "text/x-vcard";
 
 	public static final String MyPREFERENCES = "your_file_name";
@@ -68,11 +68,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
 		init();
-		
-		if(destination_number.getText().toString().matches("")){
-			
+
+		if (destination_number.getText().toString().matches("")) {
+
 			getDest();
-			
+
 		}
 		TelephonyManager telemamanger = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		myPhoneNumber = "+" + telemamanger.getLine1Number().toString();
@@ -90,11 +90,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 		}
 
-		//To set destination contact in edittext
-		/*mPreferences = getSharedPreferences("dest", Context.MODE_PRIVATE);
-		destNumber = mPreferences.getString("number", destNumber);
-		name = mPreferences.getString("name", name);*/
-		
+		// To set destination contact in edittext
+		/*
+		 * mPreferences = getSharedPreferences("dest", Context.MODE_PRIVATE);
+		 * destNumber = mPreferences.getString("number", destNumber); name =
+		 * mPreferences.getString("name", name);
+		 */
 
 		addedText = myPhoneNumber + "\t" + "has sent you this information:"
 				+ "\n" + "\n" + contact_name + "\n" + number + "\n" + "\n"
@@ -112,47 +113,40 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 	}
 
-	
-	private void TestCommit(){
-		
+	private void TestCommit() {
+
 		System.out.print("Test Commit");
-		
+
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.d("on result:", "onActivityResult:" + resultCode + " request:"
 				+ requestCode);
-		
-		
-			
-			switch (requestCode) {
-			case RESULT_PICK_CONTACT_DESTINATIONBOOK:
-				
-				//getActualVcard(data);
-				
-				//getContactForDestination(data);
-				
-				break;
-				
-			case RESULT_PICK_CONTACT_CONTACTBOOK:
-				
-				
-				//getContactInfo(data);
-				
-				break;
-				
-			case SET_RESULTS_FOR_CONTACT_CONTACTBOOK:
-				
-				
-				break;
-				
-			case SEND_VCARD:
-				
-				
-				break;
-			}
-		
+
+		switch (requestCode) {
+		case RESULT_PICK_CONTACT_DESTINATIONBOOK:
+
+			// getActualVcard(data);
+
+			// getContactForDestination(data);
+
+			break;
+
+		case RESULT_PICK_CONTACT_CONTACTBOOK:
+
+			// getContactInfo(data);
+
+			break;
+
+		case SET_RESULTS_FOR_CONTACT_CONTACTBOOK:
+
+			break;
+
+		case SEND_VCARD:
+
+			break;
+		}
 
 		// Finish the activity since we have what we need
 		finish();
@@ -165,37 +159,37 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		startActivityForResult(intent, RESULT_PICK_CONTACT_DESTINATIONBOOK);
 	}
-	
-	private void getDest(){
-		
-		//To set destination contact in edittext
+
+	private void getDest() {
+
+		// To set destination contact in edittext
 		mPreferences = getSharedPreferences("dest", Context.MODE_PRIVATE);
 		destNumber = mPreferences.getString("number", destNumber);
 		name = mPreferences.getString("name", name);
 		destination_number.setText(destNumber);
-		
+
 	}
-	
-	private void SelectContactForDestination(){
-		
-		Intent selectContact = new Intent(this,
-		DestinationBook.class);
-		startActivityForResult(selectContact, RESULT_PICK_CONTACT_DESTINATIONBOOK);
-		
+
+	private void SelectContactForDestination() {
+
+		Intent selectContact = new Intent(this, DestinationBook.class);
+		startActivityForResult(selectContact,
+				RESULT_PICK_CONTACT_DESTINATIONBOOK);
+
 	}
-	
-	private void SelectContactFromContactBook(){
-		
-		Intent selectContact_fromcontactbook = new Intent(
-				MainActivity.this, ContactsBook.class);
-		selectContact_fromcontactbook
-				.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-		startActivityForResult(selectContact_fromcontactbook,RESULT_PICK_CONTACT_CONTACTBOOK);
-		
+
+	private void SelectContactFromContactBook() {
+
+		Intent selectContact_fromcontactbook = new Intent(MainActivity.this,
+				ContactsBook.class);
+		selectContact_fromcontactbook.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		startActivityForResult(selectContact_fromcontactbook,
+				RESULT_PICK_CONTACT_CONTACTBOOK);
+
 	}
-	
-	private void getContactInfo(Intent data){
-		
+
+	private void getContactInfo(Intent data) {
+
 		mPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
 		if (mPreferences.getBoolean("firstrun", true)) {
@@ -212,14 +206,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			contact_list_phonenumber.setText(number);
 
 		}
-		
+
 	}
-	
-	private void getContactForDestination(Intent data){
-		
-		String result=data.getStringExtra("destno");
+
+	private void getContactForDestination(Intent data) {
+
+		String result = data.getStringExtra("destno");
 		Log.i("RESULT FROM ACTIVITY: ", result);
-				
+
 	}
 
 	private void getActualVcard(Intent data) {
@@ -232,26 +226,29 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		String phoneNumber;
 		String phoneDisplay = null;
 		String placeHolderNumber = "7176839270";
-		
-		Cursor cursor = getContentResolver().query(contactData,null,null,null,null);
+
+		Cursor cursor = getContentResolver().query(contactData, null, null,
+				null, null);
 		if (cursor.moveToNext()) {
 
 			phoneDisplay = cursor
 					.getString(cursor
 							.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-			
-			Log.i("Vcard Name:", phoneDisplay+placeHolderNumber);
+
+			Log.i("Vcard Name:", phoneDisplay + placeHolderNumber);
 		}
 		cursor.close();
-		
+
 		if (vCardString != null) {
 
 			Log.d("TAG", "file not null");
 			tempVcardString = vCardString;
-			Log.d("TAG", tempVcardString + "\n"+ "\n" + getContactName);
-			
-			/*sendMMStoHTCOne(placeHolderNumber, tempVcardString,
-					phoneDisplay, VCARDTYPE);*/
+			Log.d("TAG", tempVcardString + "\n" + "\n" + getContactName);
+
+			/*
+			 * sendMMStoHTCOne(placeHolderNumber, tempVcardString, phoneDisplay,
+			 * VCARDTYPE);
+			 */
 			destination_number.setText(placeHolderNumber);
 
 		}
@@ -286,38 +283,53 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 	public void sendMessageForContactPhoneBook() {
 
-		if (destination_number.getText().toString().matches("")) {
+		if (!destination_number.getText().toString().matches("")) {
 
-			Toast.makeText(getApplicationContext(),
-					"Message not Sent, Please enter the destination",
-					Toast.LENGTH_LONG).show();
+			if (destination_number.getText().toString().startsWith("7")
+					|| destination_number.getText().toString().startsWith("+1")
+					|| destination_number.getText().toString()
+							.startsWith("+17")) {
 
-		} else {
+				mSendIntent = new Intent(SMS_SEND_ACTION);
+				mDeliveryIntent = new Intent(SMS_DELIVERY_ACTION);
+				SmsManager sms = SmsManager.getDefault();
+				ArrayList<String> parts = sms.divideMessage(addedText);
+				int numParts = parts.size();
 
-			mSendIntent = new Intent(SMS_SEND_ACTION);
-			mDeliveryIntent = new Intent(SMS_DELIVERY_ACTION);
-			SmsManager sms = SmsManager.getDefault();
-			ArrayList<String> parts = sms.divideMessage(addedText);
-			int numParts = parts.size();
+				ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>();
+				ArrayList<PendingIntent> deliveryIntents = new ArrayList<PendingIntent>();
 
-			ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>();
-			ArrayList<PendingIntent> deliveryIntents = new ArrayList<PendingIntent>();
+				for (int i = 0; i < numParts; i++) {
+					sentIntents.add(PendingIntent.getBroadcast(
+							getApplicationContext(), 0, mSendIntent, 0));
+					deliveryIntents.add(PendingIntent.getBroadcast(
+							getApplicationContext(), 0, mDeliveryIntent, 0));
+				}
+				Toast.makeText(getApplicationContext(), "Message Sent",
+						Toast.LENGTH_LONG).show();
+				sms.sendMultipartTextMessage(destination_number.getText()
+						.toString(), null, parts, sentIntents, deliveryIntents);
+				Toast.makeText(getApplicationContext(), "Message Sent",
+						Toast.LENGTH_LONG).show();
 
-			for (int i = 0; i < numParts; i++) {
-				sentIntents.add(PendingIntent.getBroadcast(
-						getApplicationContext(), 0, mSendIntent, 0));
-				deliveryIntents.add(PendingIntent.getBroadcast(
-						getApplicationContext(), 0, mDeliveryIntent, 0));
+			} else {
+
+				Toast.makeText(getApplicationContext(),
+						"Message not Sent, serice only available for US.",
+						Toast.LENGTH_LONG).show();
+
 			}
-			Toast.makeText(getApplicationContext(), "Message Sent",
-					Toast.LENGTH_LONG).show();
-			sms.sendMultipartTextMessage(destination_number.getText()
-					.toString(), null, parts, sentIntents, deliveryIntents);
-			Toast.makeText(getApplicationContext(), "Message Sent",
+
+		} else if (destination_number.getText().toString().startsWith("18")) {
+
+			Toast.makeText(
+					getApplicationContext(),
+					"Message not Sent" + "\t"
+							+ "1800 - Toll Free numbers not supported",
 					Toast.LENGTH_LONG).show();
 
 		}
-
+		
 	}
 
 	public void sendMessageForVcard() {
@@ -438,15 +450,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		case R.id.select_contact_listfor_destination:
 
 			SelectContactForDestination();
-			
-			//performContact();
+
+			// performContact();
 
 			break;
 
 		case R.id.select_contact_list:
-			
+
 			SelectContactFromContactBook();
-			
+
 			break;
 
 		case R.id.send_message_with_contact_selected:
@@ -464,7 +476,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		}
 
 	}
-	
+
 	private void sendMMStoHTCOne(String phone, String vCardString,
 			String vCardName, String mediaType) {
 

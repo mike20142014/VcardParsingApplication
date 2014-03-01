@@ -112,6 +112,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 	}
 
+	
+	private void TestCommit(){
+		
+		System.out.print("Test Commit");
+		
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.d("on result:", "onActivityResult:" + resultCode + " request:"

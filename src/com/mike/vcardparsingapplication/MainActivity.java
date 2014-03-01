@@ -116,6 +116,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private void TestCommit() {
 
 		System.out.print("Test Commit");
+		System.out.print("Test Commit 2");
 
 	}
 

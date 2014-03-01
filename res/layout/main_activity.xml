@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#333333"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="#333333"
+        android:orientation="vertical"
+        android:padding="7dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/gradient"
+                android:padding="7dp"
+                android:text="@string/heading"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#0099cc"
+                android:typeface="normal" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="#ffffbb33"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/header_for_select_phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/gradient"
+                android:padding="7dp"
+                android:text="@string/select_number_you_want_to_send"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#33b5e5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/destination"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp"
+                    android:text="@string/destination"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#ffffffff"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/destination_edit_text"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/enter_number"
+                    android:inputType="number|text"
+                    android:textColor="#ffffbb33"
+                    android:textStyle="italic" >
+                </EditText>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/OR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="7dp"
+                android:text="@string/or"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/select_contact_listfor_destination"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/gradient"
+                android:padding="7dp"
+                android:text="@string/select_contact_phonebook"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#ff99cc00" />
+
+            <TextView
+                android:id="@+id/select_from_contactbook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/gradient"
+                android:padding="7dp"
+                android:text="@string/information_header"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#33b5e5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:gravity="center" >
+
+                <TextView
+                    android:id="@+id/select_contact_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/gradient"
+                    android:padding="7dp"
+                    android:text="@string/select_contact_phonebook"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#ff99cc00"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/gradient"
+                android:padding="7dp"
+                android:text="@string/information_from_phonebook"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#33b5e5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/textview_contact_phonebook__name"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp"
+                        android:text="@string/contact_name"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#ffffffff" />
+
+                    <EditText
+                        android:id="@+id/edit_text_contact_phonebook__name"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:hint="@string/hint_name_user"
+                        android:inputType="textShortMessage"
+                        android:maxLines="1"
+                        android:textColor="#ffffbb33"
+                        android:textStyle="italic" >
+                    </EditText>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/textview_contact_phonebook__number"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp"
+                        android:text="@string/contact_number"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#ffffffff" />
+
+                    <EditText
+                        android:id="@+id/edit_text_contact_phonebook__number"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:hint="@string/hint_user_phoneno"
+                        android:inputType="number"
+                        android:textColor="#ffffbb33"
+                        android:textStyle="italic" >
+                    </EditText>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/textview_contact_phonebook__address"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp"
+                        android:text="@string/contact_address"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#ffffffff" />
+
+                    <EditText
+                        android:id="@+id/edit_text_contact_address"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:hint="@string/hint_user_address"
+                        android:textColor="#ffffbb33"
+                        android:textStyle="italic" >
+                    </EditText>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/send_message_with_contact_selected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/gradient"
+                    android:padding="7dp"
+                    android:text="@string/send_message"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#ff669900"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="#ffffbb33"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/OR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="7dp"
+                android:text="@string/or"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/textview_Vcard_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gradient"
+                    android:padding="7dp"
+                    android:text="@string/vcard_info"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#33b5e5" />
+
+                <TextView
+                    android:id="@+id/extracted_vCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp"
+                    android:text="@string/vcard_result"
+                    android:textColor="#ffffbb33"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/send_message_with_vcard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/gradient"
+                android:padding="7dp"
+                android:text="@string/send_message"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ff669900"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="#ffffbb33"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/Or"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="7dp"
+                android:text="@string/or"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView_edit_information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/gradient"
+                android:padding="7dp"
+                android:text="@string/edit_information"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#33b5e5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/TextView_edited_Name"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp"
+                        android:text="@string/contact_name"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#ffffffff" />
+
+                    <EditText
+                        android:id="@+id/edit_text_edited_contact_name"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="@string/hint_name_user"
+                        android:inputType="textShortMessage"
+                        android:maxLines="1"
+                        android:textColor="#ffffbb33"
+                        android:textStyle="italic" >
+                    </EditText>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/TextView_edited_Number"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp"
+                        android:text="@string/contact_number"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#ffffffff" />
+
+                    <EditText
+                        android:id="@+id/edit_text_edited_contact_number"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="@string/hint_user_phoneno"
+                        android:inputType="number"
+                        android:textColor="#ffffbb33"
+                        android:textStyle="italic" >
+                    </EditText>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/TextView_edited_Address"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp"
+                        android:text="@string/contact_address"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#ffffffff" />
+
+                    <EditText
+                        android:id="@+id/edit_text_edited_contact_address"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:textColor="#ffffbb33"
+                        android:hint="@string/hint_user_address"
+                        android:textStyle="italic" >
+                    </EditText>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/send_message_with_edited_information"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/gradient"
+                    android:padding="7dp"
+                    android:text="@string/send_message"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#ff669900"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

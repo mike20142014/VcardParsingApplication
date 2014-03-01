@@ -256,12 +256,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	}
 
 	@Override
-	protected void onDestroy() {
+	protected void onResume() {
 		// TODO Auto-generated method stub
-		super.onDestroy();
+		super.onResume();
+		
 		mPreferences = getSharedPreferences("dest", 0);
 		mPreferences.edit().remove("number").commit();
 	}
+	
+	/*@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+	}*/
 
 	public void destinationNumber() {
 

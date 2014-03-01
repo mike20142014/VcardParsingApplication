@@ -24,9 +24,8 @@ import android.widget.Toast;
 
 import com.mike.utils.IcVCardBuilder;
 
-/**
- * Created by elkintr on 1/21/14.
- */
+
+@SuppressLint("NewApi")
 public class ShareView extends FrameLayout {
 
 	private static final int PICTURE = 1;

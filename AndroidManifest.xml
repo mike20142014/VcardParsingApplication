@@ -20,15 +20,14 @@
 
     <application
         android:allowBackup="true"
-        android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.mike.vcardparsingapplication.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" 
-            android:windowSoftInputMode="stateAlwaysHidden">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,10 +36,12 @@
         </activity>
         <activity
             android:name="com.mike.vcardparsingapplication.ContactsBook"
+            android:hardwareAccelerated="true"
             android:noHistory="true" >
         </activity>
         <activity
             android:name="com.mike.vcardparsingapplication.DestinationBook"
+            android:hardwareAccelerated="true"
             android:noHistory="true" >
         </activity>
     </application>

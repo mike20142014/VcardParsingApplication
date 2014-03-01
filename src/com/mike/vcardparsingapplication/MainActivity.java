@@ -312,20 +312,28 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				Toast.makeText(getApplicationContext(), "Message Sent",
 						Toast.LENGTH_LONG).show();
 
-			} else {
-
+			}else{
+				
 				Toast.makeText(getApplicationContext(),
 						"Message not Sent, serice only available for US.",
+						Toast.LENGTH_LONG).show();
+				
+			}
+			if (destination_number.getText().toString().startsWith("18")) {
+
+				Toast.makeText(
+						getApplicationContext(),
+						"Message not Sent, " + "\t"
+								+ "1800 - Toll Free numbers not supported",
 						Toast.LENGTH_LONG).show();
 
 			}
 
-		} else if (destination_number.getText().toString().startsWith("18")) {
+		} else {
 
-			Toast.makeText(
-					getApplicationContext(),
-					"Message not Sent" + "\t"
-							+ "1800 - Toll Free numbers not supported",
+			
+			Toast.makeText(getApplicationContext(),
+					"Message not Sent, Destination number is null.",
 					Toast.LENGTH_LONG).show();
 
 		}

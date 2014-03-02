@@ -50,7 +50,7 @@ public class ContactsBook extends Activity implements OnItemClickListener{
 	private static String PreferedDisplayName;
 	private static String DisplayAddress;
 	private SharedPreferences prefs;
-	private String test;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

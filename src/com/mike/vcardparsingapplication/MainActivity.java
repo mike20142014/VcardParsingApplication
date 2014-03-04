@@ -1,17 +1,24 @@
 package com.mike.vcardparsingapplication;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.Telephony;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -21,6 +28,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mike.utils.AppUtils;
 import com.mike.utils.IcVCardBuilder;
 import com.mike.vcardparsingapplication.ContactsBook.ItemAdapter;
 
@@ -45,7 +53,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private String addedText;
 	private String addedTextVcard;
 	private String myPhoneNumber;
-
+	String editTextValue;
+	private Context context;
+	private FileOutputStream mFileOutputStream;
+	String phoneDisplay;
+	String uri;
+	URI newUriParsable;
+	
 	public final static int RESULT_PICK_CONTACT_CONTACTBOOK = 1;
 	public final static int RESULT_PICK_CONTACT_DESTINATIONBOOK = 2;
 	public final static int SET_RESULTS_FOR_CONTACT_CONTACTBOOK = 3;
@@ -62,13 +76,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private Intent mDeliveryIntent;
 	private static final String SMS_SEND_ACTION = "CTS_SMS_SEND_ACTION";
 	private static final String SMS_DELIVERY_ACTION = "CTS_SMS_DELIVERY_ACTION";
+	private File file;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
+		context = this;
 		init();
 
+		editTextValue = getIntent().getStringExtra("valueId");
+		
 		if (destination_number.getText().toString().matches("")) {
 
 			getDest();
@@ -108,7 +126,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		addedTextVcard = myPhoneNumber + "\t"
 				+ "has sent you this information:" + "\n" + "\n"
 				+ contact_list_name.getText().toString() + "\n"
-				+ extractedvCard.getText().toString() + "\n" + "\n"
+				+ extractedvCard.getText().toString() + "\n" + "\n" +editTextValue + "\n"
 				+ "Thank you";
 
 	}
@@ -146,12 +164,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 		case SEND_VCARD:
 
+			//sendVcard(data);
+
 			break;
 		}
 
 		// Finish the activity since we have what we need
-		finish();
+		//finish();
 	}
+	
 
 	private void performContact() {
 		Intent intent = new Intent(Intent.ACTION_PICK,
@@ -188,6 +209,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				RESULT_PICK_CONTACT_CONTACTBOOK);
 
 	}
+	
+	private void getVcardInfoFromContactBook(){
+		
+		Intent selectContact_fromcontactbook = new Intent(MainActivity.this,
+				ContactsBook.class);
+		selectContact_fromcontactbook.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		startActivityForResult(selectContact_fromcontactbook,
+				SEND_VCARD);
+		
+	}
 
 	private void getContactInfo(Intent data) {
 
@@ -217,41 +248,54 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 	}
 
-	private void getActualVcard(Intent data) {
 
-		Uri contactData = data.getData();
-		String vCardString = IcVCardBuilder
-				.createVCardString(this, contactData);
-		String getContactName = data.getDataString();
-		String tempVcardString = null;
-		String phoneNumber;
-		String phoneDisplay = null;
-		String placeHolderNumber = "7176839270";
+	//To send VCARD AS MMS
+	private void getActualVcard() {
 
-		Cursor cursor = getContentResolver().query(contactData, null, null,
-				null, null);
-		if (cursor.moveToNext()) {
-
-			phoneDisplay = cursor
-					.getString(cursor
-							.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-
-			Log.i("Vcard Name:", phoneDisplay + placeHolderNumber);
+		mPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+		uri = mPreferences.getString("uri", uri);
+		
+		Log.i("New Uri: ", uri);
+		
+		Intent data = getIntent();
+		Uri contactData = data.getParcelableExtra("uri");
+		
+		Uri newUri = Uri.parse(uri);
+		Uri tempUri = null;
+		File vCardFile = IcVCardBuilder.createVCard(this, contactData);
+		try {
+			newUriParsable = URI.create(mPreferences.getString("uri", "defaultString"));
+					
+			//newUriParsable = data.getParcelableExtra(uri);
+			Log.i("New Uri from ContactsBook Parsable: ", newUriParsable.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		cursor.close();
-
-		if (vCardString != null) {
+		
+		
+		Log.i("New Uri from ContactsBook: ", newUri.toString());
+		
+		
+		
+		String vCardString = IcVCardBuilder
+				.createVCardString(this, newUri);
+		String tempVcardString = null;
+		
+		if (vCardString != null&& newUri != null) {
 
 			Log.d("TAG", "file not null");
 			tempVcardString = vCardString;
-			Log.d("TAG", tempVcardString + "\n" + "\n" + getContactName);
-
-			/*
-			 * sendMMStoHTCOne(placeHolderNumber, tempVcardString, phoneDisplay,
-			 * VCARDTYPE);
-			 */
-			destination_number.setText(placeHolderNumber);
-
+			tempUri = Uri.fromFile(vCardFile);
+			
+		if(isSmsForHTCone()){
+        	sendMMStoHTCOne(destination_number.getText().toString(), tempVcardString, phoneDisplay,VCARDTYPE);
+        	
+        }else{
+        	sendVcardMMS(destination_number.getText().toString(), tempVcardString, phoneDisplay,tempUri, VCARDTYPE);
+        }
+			//sendMMStoHTCOne(destination_number.getText().toString(), tempVcardString, phoneDisplay,VCARDTYPE);
+			//sendVcardMMS(destination_number.getText().toString(), tempVcardString, phoneDisplay,VCARDTYPE);
 		}
 
 	}
@@ -260,16 +304,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		
-		mPreferences = getSharedPreferences("dest", 0);
-		mPreferences.edit().remove("number").commit();
 	}
-	
-	/*@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-	}*/
+
+	  @Override protected void onDestroy() {
+
+	  super.onDestroy();
+	  mPreferences = getSharedPreferences("dest", 0);
+	  mPreferences.edit().remove("number").commit();
+	  }
+	 
 
 	public void destinationNumber() {
 
@@ -295,6 +338,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 			if (destination_number.getText().toString().startsWith("7")
 					|| destination_number.getText().toString().startsWith("+1")
+					|| destination_number.getText().toString().startsWith("4")
+					|| destination_number.getText().toString()
+							.startsWith("+14")
+					|| destination_number.getText().toString()
+							.startsWith("+182")
 					|| destination_number.getText().toString()
 							.startsWith("+17")) {
 
@@ -320,21 +368,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				Toast.makeText(getApplicationContext(), "Message Sent",
 						Toast.LENGTH_LONG).show();
 
-			}else{
-				
+			} else {
+
 				Toast.makeText(getApplicationContext(),
 						"Message not Sent, serice only available for US.",
 						Toast.LENGTH_LONG).show();
 				destination_number.setText("");
-				
+
 			}
-			
-			if(!(destination_number.getText().toString().length() == 10||destination_number.getText().toString().length()==11||destination_number.getText().toString().length()==12)){
-				
+
+			if (destNumber.length()<10) {
+
 				Toast.makeText(getApplicationContext(),
 						"Please enter a valid destination number.",
 						Toast.LENGTH_LONG).show();
-				//destination_number.setText("");
+				// destination_number.setText("");
 			}
 			if (destination_number.getText().toString().startsWith("1800")) {
 
@@ -349,7 +397,63 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 		} else {
 
-			
+			Toast.makeText(getApplicationContext(),
+					"Message not Sent, Destination number is null.",
+					Toast.LENGTH_LONG).show();
+
+		}
+
+	}
+	
+	public void sendMMSVcard(){
+		
+		if (!destination_number.getText().toString().matches("")) {
+
+			if (destination_number.getText().toString().startsWith("7")
+					|| destination_number.getText().toString().startsWith("+1")
+					|| destination_number.getText().toString().startsWith("4")
+					|| destination_number.getText().toString()
+							.startsWith("+14")
+					|| destination_number.getText().toString()
+							.startsWith("+182")
+					|| destination_number.getText().toString()
+							.startsWith("+17")) {
+
+				
+				Toast.makeText(getApplicationContext(), "Message Sent",
+						Toast.LENGTH_LONG).show();
+
+			} else {
+
+				Toast.makeText(getApplicationContext(),
+						"Message not Sent, serice only available for US.",
+						Toast.LENGTH_LONG).show();
+				destination_number.setText("");
+
+			}
+
+			if (!(destination_number.getText().toString().length() == 10
+					|| destination_number.getText().toString().length() == 11 || destination_number
+					.getText().toString().length() == 12)) {
+
+				Toast.makeText(getApplicationContext(),
+						"Please enter a valid destination number.",
+						Toast.LENGTH_LONG).show();
+				// destination_number.setText("");
+			}
+			if (destination_number.getText().toString().startsWith("1800")) {
+
+				Toast.makeText(
+						getApplicationContext(),
+						"Message not Sent, " + "\t"
+								+ "1800 - Toll Free numbers not supported",
+						Toast.LENGTH_LONG).show();
+				destination_number.setText("");
+
+			}
+
+		} else {
+
 			Toast.makeText(getApplicationContext(),
 					"Message not Sent, Destination number is null.",
 					Toast.LENGTH_LONG).show();
@@ -360,34 +464,75 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 	public void sendMessageForVcard() {
 
-		if (destination_number.getText().toString().matches("")
-				&& extractedvCard != null) {
+		
+		Log.i("File: ", editTextValue);
+		if (!destination_number.getText().toString().matches("")) {
 
-			Toast.makeText(getApplicationContext(), "Message not Sent",
-					Toast.LENGTH_LONG).show();
+			if (destination_number.getText().toString().startsWith("7")
+					|| destination_number.getText().toString().startsWith("+1")
+					|| destination_number.getText().toString().startsWith("4")
+					|| destination_number.getText().toString()
+							.startsWith("+14")
+					|| destination_number.getText().toString()
+							.startsWith("+182")
+					|| destination_number.getText().toString()
+							.startsWith("+17")) {
+
+				mSendIntent = new Intent(SMS_SEND_ACTION);
+				mDeliveryIntent = new Intent(SMS_DELIVERY_ACTION);
+				SmsManager sms = SmsManager.getDefault();
+				ArrayList<String> parts = sms.divideMessage(addedTextVcard);
+				int numParts = parts.size();
+
+				ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>();
+				ArrayList<PendingIntent> deliveryIntents = new ArrayList<PendingIntent>();
+
+				for (int i = 0; i < numParts; i++) {
+					sentIntents.add(PendingIntent.getBroadcast(
+							getApplicationContext(), 0, mSendIntent, 0));
+					deliveryIntents.add(PendingIntent.getBroadcast(
+							getApplicationContext(), 0, mDeliveryIntent, 0));
+				}
+				Toast.makeText(getApplicationContext(), "Message Sent",
+						Toast.LENGTH_LONG).show();
+				sms.sendMultipartTextMessage(destination_number.getText()
+						.toString(), null, parts, sentIntents, deliveryIntents);
+				Toast.makeText(getApplicationContext(), "Message Sent",
+						Toast.LENGTH_LONG).show();
+
+			} else {
+
+				Toast.makeText(getApplicationContext(),
+						"Message not Sent, serice only available for US.",
+						Toast.LENGTH_LONG).show();
+				destination_number.setText("");
+
+			}
+
+			if (!(destination_number.getText().toString().length() == 10
+					|| destination_number.getText().toString().length() == 11 || destination_number
+					.getText().toString().length() == 12)) {
+
+				Toast.makeText(getApplicationContext(),
+						"Please enter a valid destination number.",
+						Toast.LENGTH_LONG).show();
+				// destination_number.setText("");
+			}
+			if (destination_number.getText().toString().startsWith("1800")) {
+
+				Toast.makeText(
+						getApplicationContext(),
+						"Message not Sent, " + "\t"
+								+ "1800 - Toll Free numbers not supported",
+						Toast.LENGTH_LONG).show();
+				destination_number.setText("");
+
+			}
 
 		} else {
 
-			mSendIntent = new Intent(SMS_SEND_ACTION);
-			mDeliveryIntent = new Intent(SMS_DELIVERY_ACTION);
-			SmsManager sms = SmsManager.getDefault();
-			ArrayList<String> parts = sms.divideMessage(addedTextVcard);
-			int numParts = parts.size();
-
-			ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>();
-			ArrayList<PendingIntent> deliveryIntents = new ArrayList<PendingIntent>();
-
-			for (int i = 0; i < numParts; i++) {
-				sentIntents.add(PendingIntent.getBroadcast(
-						getApplicationContext(), 0, mSendIntent, 0));
-				deliveryIntents.add(PendingIntent.getBroadcast(
-						getApplicationContext(), 0, mDeliveryIntent, 0));
-			}
-			Toast.makeText(getApplicationContext(), "Message Sent",
-					Toast.LENGTH_LONG).show();
-			sms.sendMultipartTextMessage(destination_number.getText()
-					.toString(), null, parts, sentIntents, deliveryIntents);
-			Toast.makeText(getApplicationContext(), "Message Sent",
+			Toast.makeText(getApplicationContext(),
+					"Message not Sent, Destination number is null.",
 					Toast.LENGTH_LONG).show();
 
 		}
@@ -497,7 +642,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 		case R.id.send_message_with_vcard:
 
-			sendMessageForVcard();
+			getActualVcard();
+			//sendMessageForVcard();
 
 		}
 
@@ -513,14 +659,206 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private void sendMMStoHTCOne(String phone, String vCardString,
 			String vCardName, String mediaType, String msg) {
 
-		Intent sendIntent = new Intent(
-				"com.htc.intent.action.LAUNCH_MSG_COMPOSE");
-		sendIntent.setData(Uri.parse(vCardString));
-		sendIntent.setType("text/x-vCard");
-		sendIntent.putExtra(Intent.EXTRA_TEXT, vCardString);
-		sendIntent.putExtra("address", phone);
-		sendIntent.putExtra("name", vCardName);
-		startActivity(sendIntent);
+		String vcardmessage = myPhoneNumber + "\t"
+				+ "has sent you this vcard with name:" + "\n" + "\n"
+				+ contact_name + "\n"
+			    + "\n"
+				+ "Thank you";
+		
+		if (!destination_number.getText().toString().matches("")) {
+
+			if (destination_number.getText().toString().startsWith("7")
+					|| destination_number.getText().toString().startsWith("+1")
+					|| destination_number.getText().toString().startsWith("4")
+					|| destination_number.getText().toString()
+							.startsWith("+14")
+					|| destination_number.getText().toString()
+							.startsWith("+182")
+					|| destination_number.getText().toString()
+							.startsWith("+17")) {
+
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) //At least KitKat
+		        {
+				Intent sendIntent = new Intent(
+						"com.htc.intent.action.LAUNCH_MSG_COMPOSE");
+				sendIntent.setData(Uri.parse(vCardString));
+				sendIntent.setType("text/x-vCard");
+				sendIntent.putExtra(Intent.EXTRA_TEXT, vCardString);
+				//sendIntent.putExtra("exit_on_sent", true);
+				sendIntent.putExtra("sms_body", vcardmessage);
+				sendIntent.putExtra("address", phone);
+				sendIntent.putExtra("name", contact_name);
+				startActivity(sendIntent);
+		        }
+				
+				else{
+					
+					Intent smsIntent = new Intent("com.htc.intent.action.LAUNCH_MSG_COMPOSE");
+					smsIntent.setType("text/x-vCard");
+					smsIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(vCardString));
+					/*Intent smsIntent = new Intent("com.htc.intent.action.LAUNCH_MSG_COMPOSE");
+					smsIntent.setType("text/x-vCard");*/
+					smsIntent.putExtra("address", phone);
+					smsIntent.putExtra(Intent.EXTRA_TEXT, vCardString);
+					smsIntent.putExtra("sms_body",vcardmessage);
+					smsIntent.putExtra("name", contact_name);
+					startActivity(smsIntent);
+					
+				}
+				
+
+			} else {
+
+				Toast.makeText(getApplicationContext(),
+						"Message not Sent, serice only available for US.",
+						Toast.LENGTH_LONG).show();
+				destination_number.setText("");
+
+			}
+
+			if (destNumber.length()<10) {
+
+				Toast.makeText(getApplicationContext(),
+						"Please enter a valid destination number.",
+						Toast.LENGTH_LONG).show();
+				// destination_number.setText("");
+			}
+			if (destination_number.getText().toString().startsWith("1800")) {
+
+				Toast.makeText(
+						getApplicationContext(),
+						"Message not Sent, " + "\t"
+								+ "1800 - Toll Free numbers not supported",
+						Toast.LENGTH_LONG).show();
+				destination_number.setText("");
+
+			}
+
+		} else {
+
+			Toast.makeText(getApplicationContext(),
+					"Message not Sent, Destination number is null.",
+					Toast.LENGTH_LONG).show();
+
+		}
+		
 	}
+	private void sendVcardMMS(String phone, String vCardString,
+			String vCardName, Uri uri, String mediaType) {
+		sendVcardMMS(phone, vCardString, vCardName, mediaType, uri, null);
+    }
+	
+	@SuppressLint("NewApi")
+    private void sendVcardMMS(String phone, String vCardString,
+			String vCardName, String mediaType,Uri uri, String msg) {
+			
+		String vcardmessage = myPhoneNumber + "\t"
+				+ "has sent you this vcard with name:" + "\n" + "\n"
+				+ contact_name + "\n"
+			    + "\n"
+				+ "Thank you";
+		
+		if (!destination_number.getText().toString().matches("")) {
+
+			if (destination_number.getText().toString().startsWith("7")
+					|| destination_number.getText().toString().startsWith("+1")
+					|| destination_number.getText().toString().startsWith("4")
+					|| destination_number.getText().toString()
+							.startsWith("+14")
+					|| destination_number.getText().toString()
+							.startsWith("+182")
+					|| destination_number.getText().toString()
+							.startsWith("+17")) {
+
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) //At least KitKat
+		        {
+					
+					String defaultSmsPackageName = Telephony.Sms.getDefaultSmsPackage(getApplicationContext()); //Need to change the build to API 19
+		            Intent sendIntent = new Intent(Intent.ACTION_SEND);
+		            sendIntent.setType("vnd.android-dir/mms-sms");
+		            sendIntent.putExtra(Intent.EXTRA_TEXT, vCardString);  
+		            sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+		            sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		            sendIntent.putExtra("address", phone);
+		            startActivity(sendIntent);
+					
+					
+		        }
+				
+				else{
+					
+					Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+					smsIntent.setType("vnd.android-dir/mms-sms");
+					smsIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(vCardString));
+					/*Intent smsIntent = new Intent("com.htc.intent.action.LAUNCH_MSG_COMPOSE");
+					smsIntent.setType("text/x-vCard");*/
+					smsIntent.putExtra(Intent.EXTRA_STREAM, uri);
+					smsIntent.putExtra("address", phone);
+					smsIntent.putExtra(Intent.EXTRA_TEXT, vCardString);
+					smsIntent.putExtra("sms_body",vcardmessage);
+					startActivity(smsIntent);
+					
+				}
+				
+
+			} else {
+
+				Toast.makeText(getApplicationContext(),
+						"Message not Sent, serice only available for US.",
+						Toast.LENGTH_LONG).show();
+				destination_number.setText("");
+
+			}
+
+			if (destNumber.length()<10) {
+
+				Toast.makeText(getApplicationContext(),
+						"Please enter a valid destination number.",
+						Toast.LENGTH_LONG).show();
+				// destination_number.setText("");
+			}
+			if (destination_number.getText().toString().startsWith("1800")) {
+
+				Toast.makeText(
+						getApplicationContext(),
+						"Message not Sent, " + "\t"
+								+ "1800 - Toll Free numbers not supported",
+						Toast.LENGTH_LONG).show();
+				destination_number.setText("");
+
+			}
+
+		} else {
+
+			Toast.makeText(getApplicationContext(),
+					"Message not Sent, Destination number is null.",
+					Toast.LENGTH_LONG).show();
+
+		}		
+		
+	}
+	
+	private Boolean isSmsForHTCone(){
+    	
+    	String HTCModel = "HTC6500LVW";
+    	Boolean isHTCModel = true;
+    	String BuildAndManufacturer = Build.MODEL + " \t " + Build.MANUFACTURER;
+    	String matchBM = "HTC OneHTC";
+    	String build = "HTC One";
+    	String manufacturer = "HTC";
+    	if(Build.MODEL.matches(HTCModel)||BuildAndManufacturer.matches(matchBM)||Build.MODEL.matches(build)){
+    		
+    		Log.i("HTC : ", "True");
+    		return isHTCModel;
+    		
+    	}
+    	else{
+    	
+    		Log.i("HTC : ", "False");
+    	 return false;
+    	}
+    	
+    
+    }
 
 }

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -84,6 +85,75 @@ public static String createVCardString(Context context, Uri contactUri){
 	    return vCardResult;
     	
     }
+
+
+public static File createVCard(Context context,  Uri contactUri)
+{
+	 int vCardType =VCardConfig.VCARD_TYPE_V21_GENERIC;
+	// File directory =Environment.getExternalStorageDirectory();
+	 //String name = Directory.CONTENT_URI.getPath();
+	 File vCardFile = new File(AppUtils.DEFAULT_DIR,"contact.vcf");
+	 FileOutputStream outputStream =null;
+     OutputStreamWriter writer=null;
+     String vCardResult =null;
+	try {
+
+        VCardComposer composer = new VCardComposer(context,vCardType);
+        Map<String, List<ContentValues>> dataMap = extractContact(context,contactUri);
+
+        //create vCard representation
+        vCardResult= composer.buildVCard(dataMap);
+        
+        Log.d("FinalResult", vCardResult);
+        
+        if(vCardResult!=null)
+        {
+        	outputStream =new FileOutputStream(vCardFile);
+			writer = new OutputStreamWriter(outputStream);
+			writer.write(vCardResult);
+			writer.flush();
+        }
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	finally{
+		if(writer!=null)
+			try {
+				writer.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				
+			}
+		if(outputStream!=null){
+			try {
+				outputStream.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	}
+	return vCardFile;
+
+}
+public static String createVcardStringNew(Context context, String uri){
+	
+	int vCardType = VCardConfig.VCARD_TYPE_V21_GENERIC;
+	String vCardResult = null;
+	
+	try{
+		VCardComposer composer = new VCardComposer(context,vCardType);
+		Map<String, List<ContentValues>> dataMap = extractContact(context);
+		vCardResult = composer.buildVCard(dataMap);
+		
+	}catch(Exception e){
+		e.printStackTrace();
+	}
+	return null;
+	
+}
 	/**
 	 * 
 	 * @param context
@@ -121,6 +191,32 @@ public static String createVCardString(Context context, Uri contactUri){
 		}
         
         return contactMap;       
+	}
+	static public Map<String, List<ContentValues>> extractContact(Context context){
+		
+		Map<String, List<ContentValues>> contactMap = new HashMap<String, List<ContentValues>>();
+		Cursor c = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+		try{
+			if (c.moveToFirst()) {
+				addNameProperties(context, contactMap,c);
+				addPhoneNumbers(context,contactMap, c);
+				addEmailAddresses(context, contactMap, c);
+				addWebSites(context, contactMap, c);
+				addPostalAdress(context, contactMap, c);				
+			}			
+		}
+		catch(Exception e ){
+			//FIXME:
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (c!=null)
+				c.close();
+		}
+		
+		return contactMap;
+		
 	}
 
 	static private void addPhoneNumbers(Context context,Map<String, List<ContentValues>> dataMap, Cursor c) {

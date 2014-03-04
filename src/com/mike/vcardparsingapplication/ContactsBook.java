@@ -1,7 +1,9 @@
 package com.mike.vcardparsingapplication;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -14,8 +16,10 @@ import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
+import android.telephony.SmsManager;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,8 +35,8 @@ import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.QuickContactBadge;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.mike.utils.IcVCardBuilder;
 import com.mike.utils.Utils;
 
 public class ContactsBook extends Activity implements OnItemClickListener{
@@ -50,13 +54,23 @@ public class ContactsBook extends Activity implements OnItemClickListener{
 	private static String PreferedDisplayName;
 	private static String DisplayAddress;
 	private SharedPreferences prefs;
+	private Context context;
+	String vfile;
+	FileOutputStream mFileOutputStream;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.contact_list_view_main);
 		//setContentView(R.layout.main_activity);
+		vfile = "Contacts" + "_" + System.currentTimeMillis()+".vcf";
+		/*Intent vcardIntent = new Intent();
+	    vcardIntent.putExtra("vcard", "Message");
+	    setResult(RESULT_OK,vcardIntent);*/
+	    
 		
+		
+		context = this;
 		
 		cursor = getContentResolver().query(
 						ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null,
@@ -217,6 +231,7 @@ public class ContactsBook extends Activity implements OnItemClickListener{
 	        }
 		
 	}
+		@SuppressLint("NewApi")
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View view, int position,
 				long arg3) {
@@ -258,6 +273,14 @@ public class ContactsBook extends Activity implements OnItemClickListener{
 	            byte[] b = new byte[(int) fd.getDeclaredLength()];
 	            fis.read(b);
 	            vCard = new String(b);
+	            
+	            
+	            
+	            String storage_path = Environment.getExternalStorageDirectory().toString() + File.separator + vfile;
+	            Log.i("FILE PATH", storage_path);
+	            mFileOutputStream = new FileOutputStream(storage_path, false);
+	            mFileOutputStream.write(vCard.toString().getBytes());
+	            
 	            Log.i("TAG", vCard);
 	        }catch (FileNotFoundException e) {
 	            e.printStackTrace();
@@ -266,19 +289,33 @@ public class ContactsBook extends Activity implements OnItemClickListener{
 	        }
 			
 			
+			String vCardString = IcVCardBuilder
+					.createVCardString(context, uri);
+			Log.i("Contact Vcard: ", vCardString);
+			
+			/*byte[] uriField = vCardString.getBytes(Charset.forName("US-ASCII"));
+			byte[] payload = new byte[uriField.length + 1]; 
+			System.arraycopy(uriField, 0, payload, 1, uriField.length);
+			NdefRecord nfcRecord = new NdefRecord(
+			        NdefRecord.TNF_MIME_MEDIA, "text/x-vcard".getBytes(), new byte[0], payload);*/
+			
+			
 			//Toast.makeText(getApplicationContext(), "Name:" + "----"+ DisplayName + "\t" + "Number:" + "----" + DisplayNumber, Toast.LENGTH_SHORT).show();
 			String outlet_no = DisplayNumber.toString();
 			String name = DisplayName.toString();
 			String number = DisplayNumber.toString();
-			
+			String uriString = uri.toString();
 		    System.out.println(outlet_no);
-
+		    
 		    
 		    
 		    Intent myIntent = new Intent(ContactsBook.this, MainActivity.class);  
 		   
+		    myIntent.setType("text/x-vcard");
+		    myIntent.putExtra("uri", uri);
 		    myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		    myIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+		    setResult(RESULT_OK, myIntent);
 		    startActivity(myIntent);
 
 		    SharedPreferences prefs = getSharedPreferences("your_file_name", MODE_PRIVATE);
@@ -286,6 +323,8 @@ public class ContactsBook extends Activity implements OnItemClickListener{
 		    editor.putString("yourStringName", DisplayNumber);
 		    editor.putString("nameDisplay", DisplayName);
 		    editor.putString("vcard", vCard);
+		    editor.putString("uri", uriString);
+		    //editor.putString("vcard", vfile);
 		    editor.commit();
 			
 		}

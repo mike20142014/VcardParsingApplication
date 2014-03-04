@@ -238,6 +238,11 @@ public class DestinationBook extends Activity implements OnItemClickListener{
 	                ContactsContract.Contacts.CONTENT_VCARD_URI,
 	                lookupKey);
 			
+			Intent i = new Intent();
+			i.putExtra("uri", uri);
+			setResult(RESULT_OK,i);
+			finish();
+			
 			DisplayName=cursor.getString(cursor
 					.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
 			DisplayNumber = cursor.getString(cursor

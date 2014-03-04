@@ -58,6 +58,7 @@ public class ContactsBook extends Activity implements OnItemClickListener{
 	String vfile;
 	FileOutputStream mFileOutputStream;
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

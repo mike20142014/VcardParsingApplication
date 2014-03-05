@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private TextView send_message_for_contactbook, send_message_for_vcard,
 			send_message_for_edited_info, select_contactfor_destination,
 			select_for_contactlist, extractedvCard;
+	private LinearLayout select_contact_destinationbook, select_contact_contactbook;
 	private ContactsBook mContactsBook;
 	private ItemAdapter mItemAdapter;
 	private SharedPreferences mPreferences;
@@ -689,6 +691,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		send_message_for_contactbook = (TextView) findViewById(R.id.send_message_with_contact_selected);
 		send_message_for_vcard = (TextView) findViewById(R.id.send_message_with_vcard);
 		send_message_for_edited_info = (TextView) findViewById(R.id.send_message_with_edited_information);
+		
+		
+		select_contact_destinationbook = (LinearLayout)findViewById(R.id.contact_listfor_destination);
+		select_contact_contactbook = (LinearLayout)findViewById(R.id.contact_listfor_contactbook);
 
 		// For Vcard
 		extractedvCard = (TextView) findViewById(R.id.extracted_vCard);
@@ -700,6 +706,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		send_message_for_edited_info.setOnClickListener(this);
 		select_contactfor_destination.setOnClickListener(this);
 		select_for_contactlist.setOnClickListener(this);
+		
+		select_contact_destinationbook.setOnClickListener(this);
+		select_contact_contactbook.setOnClickListener(this);
 
 	}
 
@@ -713,7 +722,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	public void onClick(View v) {
 
 		switch (v.getId()) {
-		case R.id.select_contact_listfor_destination:
+		
+		
+		case R.id.contact_listfor_destination:
+			
+			SelectContactForDestination();
+			
+			break;
+			
+		case R.id.contact_listfor_contactbook:
+			
+			SelectContactFromContactBook();
+			
+			break;
+		
+		/*case R.id.select_contact_listfor_destination:
 
 			SelectContactForDestination();
 
@@ -725,7 +748,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 			SelectContactFromContactBook();
 
-			break;
+			break;*/
 
 		case R.id.send_message_with_contact_selected:
 

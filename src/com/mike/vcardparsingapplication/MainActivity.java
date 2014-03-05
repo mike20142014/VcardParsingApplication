@@ -122,8 +122,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 		//For actual info
 		addedText = myPhoneNumber + "\t" + "has sent you this information:"
-				+ "\n" + "\n" + contact_list_name.getText().toString() + "\n"
-				+ contact_list_phonenumber.getText().toString() + "\n" + "\n"
+				+ "\n" + "\n" + "Name : " + contact_list_name.getText().toString() + "\n"
+				+ "Number : " + contact_list_phonenumber.getText().toString() + "\n" + "Address : " + contact_list_address.getText().toString() + "\n" + "\n"
 				+ "Thank you";
 		
 		
@@ -736,7 +736,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			
 			break;
 		
-		/*case R.id.select_contact_listfor_destination:
+		case R.id.select_contact_listfor_destination:
 
 			SelectContactForDestination();
 
@@ -748,7 +748,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 			SelectContactFromContactBook();
 
-			break;*/
+			break;
 
 		case R.id.send_message_with_contact_selected:
 

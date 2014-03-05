@@ -19,6 +19,5 @@
         android:paddingBottom="3dp"
         android:paddingTop="3dp"
         android1:dividerHeight="3dp" />
-    
 
 </LinearLayout>

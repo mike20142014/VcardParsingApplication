@@ -22,10 +22,12 @@
 	<string name="hint_user_address">Address of user</string>
 	
 	<string name="send_message">Send Message</string>
+	<string name="send_vcard">Send Vcard</string>
+	<string name="send_edited_message">Send Edited Message</string>
 	
 	<string name="or">OR</string>
 	
-	<string name="vcard_info">Send this vCard</string>
+	<string name="vcard_info">Extracted vCard</string>
 	<string name="vcard_result">Vcard Information</string>
 	
 	<string name="edit_information">Edit Your Information you want to Send</string>

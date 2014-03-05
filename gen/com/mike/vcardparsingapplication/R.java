@@ -25,10 +25,13 @@ public final class R {
         public static final int activity_vertical_margin=0x7f050001;
     }
     public static final class drawable {
-        public static final int generic=0x7f020000;
-        public static final int gradient=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int rectangle=0x7f020003;
+        public static final int contact_icon=0x7f020000;
+        public static final int generic=0x7f020001;
+        public static final int gradient=0x7f020002;
+        public static final int header_gradient=0x7f020003;
+        public static final int ic_launcher=0x7f020004;
+        public static final int rectangle=0x7f020005;
+        public static final int textview_gradient=0x7f020006;
     }
     public static final class id {
         public static final int OR=0x7f090007;
@@ -81,7 +84,7 @@ public final class R {
         public static final int contact_name=0x7f060003;
         public static final int contact_number=0x7f060004;
         public static final int destination=0x7f060009;
-        public static final int edit_information=0x7f060015;
+        public static final int edit_information=0x7f060017;
         public static final int enter_number=0x7f06000a;
         public static final int heading=0x7f060007;
         public static final int hello_world=0x7f060002;
@@ -90,12 +93,14 @@ public final class R {
         public static final int hint_user_phoneno=0x7f06000f;
         public static final int information_from_phonebook=0x7f06000c;
         public static final int information_header=0x7f06000d;
-        public static final int or=0x7f060012;
+        public static final int or=0x7f060014;
         public static final int select_contact_phonebook=0x7f06000b;
         public static final int select_number_you_want_to_send=0x7f060008;
+        public static final int send_edited_message=0x7f060013;
         public static final int send_message=0x7f060011;
-        public static final int vcard_info=0x7f060013;
-        public static final int vcard_result=0x7f060014;
+        public static final int send_vcard=0x7f060012;
+        public static final int vcard_info=0x7f060015;
+        public static final int vcard_result=0x7f060016;
     }
     public static final class style {
         /** 

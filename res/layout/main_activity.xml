@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0FFF0"
+    android:background="#000000"
     android:orientation="vertical"
     android:padding="10dp" >
 
@@ -17,7 +17,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
-        android:background="#F0FFF0"
+        android:background="#A9A9A9"
         android:orientation="vertical"
         android:padding="7dp" >
 
@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/gradient"
+                android:background="@drawable/header_gradient"
                 android:padding="7dp"
                 android:text="@string/heading"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -50,11 +50,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                
+                android:background="@drawable/textview_gradient"
                 android:padding="7dp"
                 android:text="@string/select_number_you_want_to_send"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#33b5e5" />
+                android:textColor="#404040"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -69,7 +70,8 @@
                     android:text="@string/destination"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/destination_edit_text"
@@ -80,7 +82,7 @@
                     android:ems="10"
                     android:hint="@string/enter_number"
                     android:inputType="number|text"
-                    android:textColor="#ffffbb33"
+                    android:textColor="#000000"
                     android:textStyle="italic" >
                 </EditText>
             </LinearLayout>
@@ -94,34 +96,58 @@
                 android:text="@string/or"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
-                android:id="@+id/select_contact_listfor_destination"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/gradient"
-                android:padding="7dp"
-                android:text="@string/select_contact_phonebook"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#ff99cc00" />
-
-            <TextView
-                android:id="@+id/select_from_contactbook"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                
-                android:padding="7dp"
-                android:text="@string/information_header"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#33b5e5" />
-
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
-                android:gravity="center" >
+                android:background="@drawable/gradient"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/contact_icon" 
+                    android:layout_marginLeft="5dp"/>
+
+                <TextView
+                    android:id="@+id/select_contact_listfor_destination"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/gradient"
+                    android:padding="7dp"
+                    android:text="@string/select_contact_phonebook"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="#ff99cc00" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/select_from_contactbook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/textview_gradient"
+                android:padding="7dp"
+                android:text="@string/information_header"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#404040" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/gradient"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/contact_icon" 
+                    android:layout_marginLeft="5dp"/>
 
                 <TextView
                     android:id="@+id/select_contact_list"
@@ -138,18 +164,19 @@
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                
+                android:background="@drawable/textview_gradient"
                 android:padding="7dp"
                 android:text="@string/information_from_phonebook"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#33b5e5" />
+                android:textColor="#404040" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#F0E68C"
                 android:orientation="vertical" >
 
                 <LinearLayout
@@ -177,8 +204,9 @@
                         android:hint="@string/hint_name_user"
                         android:inputType="textShortMessage"
                         android:maxLines="1"
-                        android:textColor="#ffffbb33"
-                        android:textStyle="italic" >
+                        android:textColor="#333333"
+                        android:textStyle="italic"
+                        android:visibility="gone" >
                     </EditText>
                 </LinearLayout>
 
@@ -207,8 +235,9 @@
                         android:enabled="false"
                         android:hint="@string/hint_user_phoneno"
                         android:inputType="number"
-                        android:textColor="#ffffbb33"
-                        android:textStyle="italic" >
+                        android:textColor="#333333"
+                        android:textStyle="italic"
+                        android:visibility="gone" >
                     </EditText>
                 </LinearLayout>
 
@@ -234,10 +263,10 @@
                         android:layout_gravity="right"
                         android:layout_weight="1"
                         android:ems="10"
-                        android:enabled="false"
                         android:hint="@string/hint_user_address"
-                        android:textColor="#ffffbb33"
-                        android:textStyle="italic" >
+                        android:textColor="#333333"
+                        android:textStyle="italic"
+                        android:visibility="gone" >
                     </EditText>
                 </LinearLayout>
 
@@ -273,7 +302,7 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:orientation="vertical" >
@@ -290,12 +319,13 @@
 
                 <TextView
                     android:id="@+id/extracted_vCard"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="#F0E68C"
                     android:padding="7dp"
                     android:text="@string/vcard_result"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#ffffbb33" />
+                    android:textColor="#333333" />
             </LinearLayout>
 
             <TextView
@@ -306,7 +336,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/gradient"
                 android:padding="7dp"
-                android:text="@string/send_message"
+                android:text="@string/send_vcard"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#ff669900"
                 android:textStyle="bold" />
@@ -333,15 +363,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/gradient"
+                android:background="@drawable/textview_gradient"
                 android:padding="7dp"
                 android:text="@string/edit_information"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#33b5e5" />
+                android:textColor="#404040" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#F0E68C"
                 android:orientation="vertical" >
 
                 <LinearLayout
@@ -368,7 +399,7 @@
                         android:hint="@string/hint_name_user"
                         android:inputType="textShortMessage"
                         android:maxLines="1"
-                        android:textColor="#ffffbb33"
+                        android:textColor="#333333"
                         android:textStyle="italic" >
                     </EditText>
                 </LinearLayout>
@@ -397,7 +428,7 @@
                         android:ems="10"
                         android:hint="@string/hint_user_phoneno"
                         android:inputType="number"
-                        android:textColor="#ffffbb33"
+                        android:textColor="#333333"
                         android:textStyle="italic" >
                     </EditText>
                 </LinearLayout>
@@ -425,11 +456,12 @@
                         android:layout_weight="1"
                         android:ems="10"
                         android:hint="@string/hint_user_address"
-                        android:textColor="#ffffbb33"
+                        android:textColor="#333333"
                         android:textStyle="italic" >
                     </EditText>
                 </LinearLayout>
 
+            </LinearLayout>
                 <TextView
                     android:id="@+id/send_message_with_edited_information"
                     android:layout_width="wrap_content"
@@ -438,11 +470,10 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/gradient"
                     android:padding="7dp"
-                    android:text="@string/send_message"
+                    android:text="@string/send_edited_message"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#ff669900"
                     android:textStyle="bold" />
-            </LinearLayout>
 
             <View
                 android:layout_width="wrap_content"

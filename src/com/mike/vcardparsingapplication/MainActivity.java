@@ -4,16 +4,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ResolveInfo;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,7 +26,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mike.utils.AppUtils;
 import com.mike.utils.IcVCardBuilder;
 import com.mike.vcardparsingapplication.ContactsBook.ItemAdapter;
 
@@ -51,6 +48,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private String destNumber;
 	private String vcard;
 	private String addedText;
+	private String addedTextEdited;
 	private String addedTextVcard;
 	private String myPhoneNumber;
 	String editTextValue;
@@ -85,6 +83,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		context = this;
 		init();
 
+		//isConnectingToInternet();
 		editTextValue = getIntent().getStringExtra("valueId");
 		
 		if (destination_number.getText().toString().matches("")) {
@@ -115,14 +114,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		 * mPreferences.getString("name", name);
 		 */
 
-		addedText = myPhoneNumber + "\t" + "has sent you this information:"
+		/*addedText = myPhoneNumber + "\t" + "has sent you this information:"
 				+ "\n" + "\n" + contact_name + "\n" + number + "\n" + "\n"
-				+ "Thank You";
+				+ "Thank You";*/
 
+		//For actual info
 		addedText = myPhoneNumber + "\t" + "has sent you this information:"
 				+ "\n" + "\n" + contact_list_name.getText().toString() + "\n"
 				+ contact_list_phonenumber.getText().toString() + "\n" + "\n"
 				+ "Thank you";
+		
+		
+		
+		//For Vcard Info
 		addedTextVcard = myPhoneNumber + "\t"
 				+ "has sent you this information:" + "\n" + "\n"
 				+ contact_list_name.getText().toString() + "\n"
@@ -410,6 +414,86 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 	}
 	
+	public void sendMessageForEditedInfo() {
+
+		if (!destination_number.getText().toString().matches("")) {
+
+			if (destination_number.getText().toString().startsWith("7")
+					|| destination_number.getText().toString().startsWith("+1")
+					|| destination_number.getText().toString().startsWith("4")
+					|| destination_number.getText().toString()
+							.startsWith("+14")
+					|| destination_number.getText().toString()
+							.startsWith("+182")
+					|| destination_number.getText().toString()
+							.startsWith("+17")) {
+
+				
+				//For Edited Contact info
+				addedTextEdited = myPhoneNumber + "\t" + "has sent you this information:"
+						+ "\n" + "\n" + "Name : " + edited_name.getText().toString() + "\n"
+						+ "Number : " + edited_number.getText().toString() + "\n" + "\n"
+						+ "Location : " + edited_address.getText().toString() + "\n" + "\n"
+						+ "Thank you";
+				mSendIntent = new Intent(SMS_SEND_ACTION);
+				mDeliveryIntent = new Intent(SMS_DELIVERY_ACTION);
+				SmsManager sms = SmsManager.getDefault();
+				ArrayList<String> parts = sms.divideMessage(addedTextEdited);
+				int numParts = parts.size();
+
+				ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>();
+				ArrayList<PendingIntent> deliveryIntents = new ArrayList<PendingIntent>();
+
+				for (int i = 0; i < numParts; i++) {
+					sentIntents.add(PendingIntent.getBroadcast(
+							getApplicationContext(), 0, mSendIntent, 0));
+					deliveryIntents.add(PendingIntent.getBroadcast(
+							getApplicationContext(), 0, mDeliveryIntent, 0));
+				}
+				Toast.makeText(getApplicationContext(), "Message Sent",
+						Toast.LENGTH_LONG).show();
+				sms.sendMultipartTextMessage(destination_number.getText()
+						.toString(), null, parts, sentIntents, deliveryIntents);
+				Toast.makeText(getApplicationContext(), "Message Sent",
+						Toast.LENGTH_LONG).show();
+
+			} else {
+
+				Toast.makeText(getApplicationContext(),
+						"Message not Sent, serice only available for US.",
+						Toast.LENGTH_LONG).show();
+				destination_number.setText("");
+
+			}
+
+			if (destNumber.length()<10) {
+
+				Toast.makeText(getApplicationContext(),
+						"Please enter a valid destination number.",
+						Toast.LENGTH_LONG).show();
+				// destination_number.setText("");
+			}
+			if (destination_number.getText().toString().startsWith("1800")) {
+
+				Toast.makeText(
+						getApplicationContext(),
+						"Message not Sent, " + "\t"
+								+ "1800 - Toll Free numbers not supported",
+						Toast.LENGTH_LONG).show();
+				destination_number.setText("");
+
+			}
+
+		} else {
+
+			Toast.makeText(getApplicationContext(),
+					"Message not Sent, Destination number is null.",
+					Toast.LENGTH_LONG).show();
+
+		}
+
+	}
+	
 	public void sendMMSVcard(){
 		
 		if (!destination_number.getText().toString().matches("")) {
@@ -558,6 +642,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			if (number == null) {
 				return;
 			}
+			contact_list_phonenumber.setVisibility(View.VISIBLE);
+			contact_list_phonenumber.setTypeface(null, Typeface.BOLD_ITALIC);
+			contact_list_name.setVisibility(View.VISIBLE); 
+			contact_list_name.setTypeface(null, Typeface.BOLD_ITALIC);
+			contact_list_address.setVisibility(View.VISIBLE);
+			contact_list_address.setTypeface(null, Typeface.BOLD_ITALIC);
 			contact_list_name.setText(contact_name);
 			contact_list_phonenumber.setText(number);
 			edited_name.setText(contact_name);
@@ -642,13 +732,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			// sendMessageForContactPhoneBook(destNumber, addedText);
 			sendMessageForContactPhoneBook();
 
-		default:
-			break;
-
 		case R.id.send_message_with_vcard:
 
 			getActualVcard();
 			//sendMessageForVcard();
+			break;
+			
+		case R.id.send_message_with_edited_information:
+			
+			sendMessageForEditedInfo();
+			break;
 
 		}
 
@@ -866,4 +959,47 @@ public class MainActivity extends Activity implements View.OnClickListener {
     
     }
 
+	/*public boolean  isMMSActive()
+    {
+    	boolean isAllowed =true ;
+ 
+    	ConnectivityManager cm = (ConnectivityManager) getApplicationContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+    	NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+    	
+    	String isNetwork = activeNetwork.getSubtypeName();
+    	
+        TelephonyManager telephonyManager = (TelephonyManager)getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+        
+        CellLocation mCellLocation = telephonyManager.getCellLocation();
+        Log.i(" Cell Location : ", String.valueOf(mCellLocation));
+        boolean networkType = activeNetwork.isConnected();
+        Log.i(" Is Available : ", String.valueOf(isNetwork));
+        
+        int type =telephonyManager.getNetworkType();
+		if(type!=TelephonyManager.NETWORK_TYPE_LTE)
+		{
+			isAllowed = false;
+		
+		}
+		Log.i("Network Type : ", String.valueOf(type));
+    	return isAllowed;
+    }*/
+	/*public boolean isConnectingToInternet(){
+        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+          if (connectivity != null)
+          {
+              NetworkInfo[] info = connectivity.getAllNetworkInfo();
+              
+              if (info != null)
+                  for (int i = 0; i < info.length; i++)
+                      if (info[i].getState() == NetworkInfo.State.CONNECTED)
+                      {
+                    	  Log.i(" Is Available : ", String.valueOf(info));
+                          return true;
+                      }
+
+          }
+          return false;
+    }*/
 }

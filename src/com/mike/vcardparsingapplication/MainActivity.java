@@ -4,13 +4,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -23,10 +26,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mike.utils.AppUtils;
 import com.mike.utils.IcVCardBuilder;
 import com.mike.vcardparsingapplication.ContactsBook.ItemAdapter;
 
@@ -39,7 +42,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private TextView send_message_for_contactbook, send_message_for_vcard,
 			send_message_for_edited_info, select_contactfor_destination,
 			select_for_contactlist, extractedvCard;
-	private LinearLayout select_contact_destinationbook, select_contact_contactbook;
 	private ContactsBook mContactsBook;
 	private ItemAdapter mItemAdapter;
 	private SharedPreferences mPreferences;
@@ -85,7 +87,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		context = this;
 		init();
 
-		//isConnectingToInternet();
 		editTextValue = getIntent().getStringExtra("valueId");
 		
 		if (destination_number.getText().toString().matches("")) {
@@ -121,10 +122,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				+ "Thank You";*/
 
 		//For actual info
-		addedText = myPhoneNumber + "\t" + "has sent you this information:"
-				+ "\n" + "\n" + "Name : " + contact_list_name.getText().toString() + "\n"
-				+ "Number : " + contact_list_phonenumber.getText().toString() + "\n" + "Address : " + contact_list_address.getText().toString() + "\n" + "\n"
-				+ "Thank you";
+		
 		
 		
 		
@@ -144,7 +142,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 	}
 
-	@Override
+	/*@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.d("on result:", "onActivityResult:" + resultCode + " request:"
 				+ requestCode);
@@ -177,7 +175,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 		// Finish the activity since we have what we need
 		//finish();
-	}
+	}*/
 	
 
 	private void performContact() {
@@ -356,6 +354,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 							.startsWith("+182")
 					|| destination_number.getText().toString()
 							.startsWith("+17")) {
+				
+				addedText = myPhoneNumber + "\t" + "has sent you this information:"
+						+ "\n" + "\n" + "Name : " + contact_list_name.getText().toString() + "\n"
+						+ "Number : " + contact_list_phonenumber.getText().toString() + "\n" 
+						+ "Location : " + contact_list_address.getText().toString() + "\n" + "\n"
+						+ "Thank you";
 
 				mSendIntent = new Intent(SMS_SEND_ACTION);
 				mDeliveryIntent = new Intent(SMS_DELIVERY_ACTION);
@@ -691,10 +695,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		send_message_for_contactbook = (TextView) findViewById(R.id.send_message_with_contact_selected);
 		send_message_for_vcard = (TextView) findViewById(R.id.send_message_with_vcard);
 		send_message_for_edited_info = (TextView) findViewById(R.id.send_message_with_edited_information);
-		
-		
-		select_contact_destinationbook = (LinearLayout)findViewById(R.id.contact_listfor_destination);
-		select_contact_contactbook = (LinearLayout)findViewById(R.id.contact_listfor_contactbook);
 
 		// For Vcard
 		extractedvCard = (TextView) findViewById(R.id.extracted_vCard);
@@ -706,9 +706,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		send_message_for_edited_info.setOnClickListener(this);
 		select_contactfor_destination.setOnClickListener(this);
 		select_for_contactlist.setOnClickListener(this);
-		
-		select_contact_destinationbook.setOnClickListener(this);
-		select_contact_contactbook.setOnClickListener(this);
 
 	}
 
@@ -722,20 +719,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	public void onClick(View v) {
 
 		switch (v.getId()) {
-		
-		
-		case R.id.contact_listfor_destination:
-			
-			SelectContactForDestination();
-			
-			break;
-			
-		case R.id.contact_listfor_contactbook:
-			
-			SelectContactFromContactBook();
-			
-			break;
-		
 		case R.id.select_contact_listfor_destination:
 
 			SelectContactForDestination();
@@ -754,9 +737,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 			// sendMessageForContactPhoneBook(destNumber, addedText);
 			sendMessageForContactPhoneBook();
-
+			break;
+			
+			
 		case R.id.send_message_with_vcard:
 
+			
 			getActualVcard();
 			//sendMessageForVcard();
 			break;
@@ -982,47 +968,4 @@ public class MainActivity extends Activity implements View.OnClickListener {
     
     }
 
-	/*public boolean  isMMSActive()
-    {
-    	boolean isAllowed =true ;
- 
-    	ConnectivityManager cm = (ConnectivityManager) getApplicationContext()
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-    	NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-    	
-    	String isNetwork = activeNetwork.getSubtypeName();
-    	
-        TelephonyManager telephonyManager = (TelephonyManager)getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
-        
-        CellLocation mCellLocation = telephonyManager.getCellLocation();
-        Log.i(" Cell Location : ", String.valueOf(mCellLocation));
-        boolean networkType = activeNetwork.isConnected();
-        Log.i(" Is Available : ", String.valueOf(isNetwork));
-        
-        int type =telephonyManager.getNetworkType();
-		if(type!=TelephonyManager.NETWORK_TYPE_LTE)
-		{
-			isAllowed = false;
-		
-		}
-		Log.i("Network Type : ", String.valueOf(type));
-    	return isAllowed;
-    }*/
-	/*public boolean isConnectingToInternet(){
-        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-          if (connectivity != null)
-          {
-              NetworkInfo[] info = connectivity.getAllNetworkInfo();
-              
-              if (info != null)
-                  for (int i = 0; i < info.length; i++)
-                      if (info[i].getState() == NetworkInfo.State.CONNECTED)
-                      {
-                    	  Log.i(" Is Available : ", String.valueOf(info));
-                          return true;
-                      }
-
-          }
-          return false;
-    }*/
 }

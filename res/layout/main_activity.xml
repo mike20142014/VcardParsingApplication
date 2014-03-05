@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/gradient"
+                
                 android:padding="7dp"
                 android:text="@string/select_number_you_want_to_send"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/gradient"
+                
                 android:padding="7dp"
                 android:text="@string/information_header"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -141,7 +141,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/gradient"
+                
                 android:padding="7dp"
                 android:text="@string/information_from_phonebook"
                 android:textAppearance="?android:attr/textAppearanceMedium"

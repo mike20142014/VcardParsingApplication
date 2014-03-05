@@ -310,7 +310,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 	  super.onDestroy();
 	  mPreferences = getSharedPreferences("dest", 0);
+	  mPreferences = getSharedPreferences("your_file_name", 0);
 	  mPreferences.edit().remove("number").commit();
+	  mPreferences.edit().remove("yourStringName").commit();
+	  mPreferences.edit().remove("nameDisplay").commit();
+	  mPreferences.edit().remove("vcard").commit();
+	 
 	  }
 	 
 

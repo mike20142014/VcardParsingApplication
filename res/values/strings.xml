@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">VcardParsingApplication</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Help</string>
     <string name="hello_world">Hello world!</string>
 	<string name="contact_name">Name:</string>
 	<string name="contact_number">Phone:</string>

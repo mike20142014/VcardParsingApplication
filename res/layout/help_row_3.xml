@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:padding="10dp"
+    android:background="#666666">
+
+    
+    <TextView
+        android:id="@+id/help_text_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Or:"
+        android:textColor="#0099cc"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/header_gradient"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <TextView
+        android:id="@+id/help_text_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send the vcard from the contact selected."
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <TextView
+        android:id="@+id/help_text_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="For Example:"
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/asset6" />
+
+    <TextView
+        android:id="@+id/help_text_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="NOTE: This vCard is extracted from the contact selected from above."
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+</LinearLayout>

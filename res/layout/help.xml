@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/header_gradient"
+        android:gravity="center"
+        android:text="Help Page"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#0099cc"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <ListView
+        android:id="@+id/helpListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.63"
+        android:divider="#000000"
+        android:dividerHeight="6dp" >
+    </ListView>
+
+    <TextView
+        android:id="@+id/close_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/header_gradient"
+        android:gravity="center"
+        android:text="Close"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#0099cc"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

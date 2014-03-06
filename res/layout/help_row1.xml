@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:padding="10dp"
+    android:background="#666666">
+
+    
+    <TextView
+        android:id="@+id/help_text_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Step 1:"
+        android:textColor="#0099cc"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/header_gradient"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <TextView
+        android:id="@+id/help_text_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Set Destination by entering number or select the contact from your contact list."
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <TextView
+        android:id="@+id/help_text_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="For Example: Just Enter the number in the empty text field or simply select the destination by choosing contact from the contact list."
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/asset1" />
+
+</LinearLayout>

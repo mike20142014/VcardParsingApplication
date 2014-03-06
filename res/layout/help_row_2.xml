@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:padding="10dp"
+    android:background="#666666">
+
+    
+    <TextView
+        android:id="@+id/help_text_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Step 2:"
+        android:textColor="#0099cc"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/header_gradient"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <TextView
+        android:id="@+id/help_text_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select contact from your list to populate the items."
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <TextView
+        android:id="@+id/help_text_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="For Example: Simply select by choosing contact from the contact list."
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/asset2" />
+     <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/asset3" />
+
+    <TextView
+        android:id="@+id/help_text_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="The information should automatically be populated below:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+     <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/asset4" />
+   
+     <TextView
+        android:id="@+id/help_text_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="You can then send this information by clicking the Send Message"
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+     
+     <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/asset5" />
+     
+    
+</LinearLayout>

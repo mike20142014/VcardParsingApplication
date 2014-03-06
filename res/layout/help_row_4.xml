@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:padding="10dp"
+    android:background="#666666">
+
+    
+    <TextView
+        android:id="@+id/help_text_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Or:"
+        android:textColor="#0099cc"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/header_gradient"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <TextView
+        android:id="@+id/help_text_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit your information and then send it."
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <TextView
+        android:id="@+id/help_text_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="For Example:"
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/asset7" />
+
+    <TextView
+        android:id="@+id/help_text_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Then you can send your edited information by clicking 'Send Edited Message' "
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/asset8" />
+</LinearLayout>

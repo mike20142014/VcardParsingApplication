@@ -64,7 +64,8 @@ public class ContactsBook extends Activity implements OnItemClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.contact_list_view_main);
 		//setContentView(R.layout.main_activity);
-		vfile = "Contacts" + "_" + System.currentTimeMillis()+".vcf";
+		//To store in sd card
+		//vfile = "Contacts" + "_" + System.currentTimeMillis()+".vcf";
 		/*Intent vcardIntent = new Intent();
 	    vcardIntent.putExtra("vcard", "Message");
 	    setResult(RESULT_OK,vcardIntent);*/
@@ -89,12 +90,12 @@ public class ContactsBook extends Activity implements OnItemClickListener{
 	
 	
 
-	@Override
+	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
-	}
+	}*/
 	
 	public void getAllContacts() {
 		Cursor cursor = getContentResolver().query(
@@ -276,11 +277,11 @@ public class ContactsBook extends Activity implements OnItemClickListener{
 	            vCard = new String(b);
 	            
 	            
-	            
-	            String storage_path = Environment.getExternalStorageDirectory().toString() + File.separator + vfile;
+	            //To Store in the sd card
+	            /*String storage_path = Environment.getExternalStorageDirectory().toString() + File.separator + vfile;
 	            Log.i("FILE PATH", storage_path);
 	            mFileOutputStream = new FileOutputStream(storage_path, false);
-	            mFileOutputStream.write(vCard.toString().getBytes());
+	            mFileOutputStream.write(vCard.toString().getBytes());*/
 	            
 	            Log.i("TAG", vCard);
 	        }catch (FileNotFoundException e) {

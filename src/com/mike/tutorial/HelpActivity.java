@@ -24,6 +24,7 @@ public class HelpActivity extends Activity implements OnClickListener {
 	public Dialog d;
 	public Button yes, no;
 
+	static HelpActivity mActivity;
 	ListView listview;
 
 	yourAdapter mAdapter;
@@ -36,7 +37,8 @@ public class HelpActivity extends Activity implements OnClickListener {
 
 		TextView close = (TextView) findViewById(R.id.close_button);
 		close.setOnClickListener(this);
-
+		
+		mActivity = this;
 
 		listview = (ListView) findViewById(R.id.helpListView);
 		mAdapter = new yourAdapter(this, new String[] { "Item1", "Item2",
@@ -44,6 +46,10 @@ public class HelpActivity extends Activity implements OnClickListener {
 
 		listview.setAdapter(mAdapter);
 	}
+	
+	public static HelpActivity getInstance(){
+		   return   mActivity;
+		 }
 
 	class yourAdapter extends BaseAdapter {
 
@@ -115,11 +121,13 @@ public class HelpActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.close_button:
 			
-			Intent closeIntent = new Intent(HelpActivity.this,
+			/*Intent closeIntent = new Intent(HelpActivity.this,
 					MainActivity.class);
 			closeIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-			startActivity(closeIntent);
+			startActivity(closeIntent);*/
 			finish();
+			
+			//HelpActivity.getInstance.finish();
 			
 			break;
 

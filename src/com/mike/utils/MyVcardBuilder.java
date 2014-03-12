@@ -24,7 +24,7 @@ import android.provider.ContactsContract.CommonDataKinds.Website;
 import android.provider.ContactsContract.Data;
 import android.util.Log;
 
-public class IcVCardBuilder {
+public class MyVcardBuilder {
 	
 //	BEGIN:VCARD
 //	VERSION:2.1

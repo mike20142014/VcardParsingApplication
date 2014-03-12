@@ -3,7 +3,6 @@ package com.mike.tutorial;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mike.vcardparsingapplication.MainActivity;
 import com.mike.vcardparsingapplication.R;
 
 public class HelpActivity extends Activity implements OnClickListener {

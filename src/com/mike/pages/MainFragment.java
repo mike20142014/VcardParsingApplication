@@ -26,7 +26,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mike.utils.IcVCardBuilder;
+import com.mike.utils.MyVcardBuilder;
 import com.mike.vcardparsingapplication.ContactsBook;
 import com.mike.vcardparsingapplication.DestinationBook;
 import com.mike.vcardparsingapplication.R;
@@ -41,7 +41,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 			send_message_for_edited_info, select_contactfor_destination,
 			select_for_contactlist, extractedvCard;
 
-	private SharedPreferences mPreferences;
+	private SharedPreferences mPreferences,mPreferencesForDest;
 
 	private String number;
 	private String name;
@@ -52,7 +52,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 	private String addedTextEdited;
 	private String addedTextVcard;
 	private String myPhoneNumber;
-	String editTextValue;
+	private String editTextValue;
 	private Context context;
 
 	String phoneDisplay;
@@ -93,13 +93,15 @@ public class MainFragment extends Fragment implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		init();
+		
 		editTextValue = getActivity().getIntent().getStringExtra("valueId");
 		
-		if (destination_number.getText().toString().matches("")) {
+		if (destination_number.getText().toString()!=null) {
 
 			getDest();
 
 		}
+		
 		TelephonyManager telemamanger = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
 		myPhoneNumber = "+" + telemamanger.getLine1Number().toString();
 
@@ -169,9 +171,9 @@ public class MainFragment extends Fragment implements OnClickListener {
 	private void getDest() {
 
 		// To set destination contact in edittext
-		mPreferences = getActivity().getSharedPreferences("dest", Context.MODE_PRIVATE);
-		destNumber = mPreferences.getString("number", destNumber);
-		name = mPreferences.getString("name", name);
+		mPreferencesForDest = getActivity().getSharedPreferences("dest", Context.MODE_PRIVATE);
+		destNumber = mPreferencesForDest.getString("number", destNumber);
+		name = mPreferencesForDest.getString("name", name);
 		destination_number.setText(destNumber);
 
 	}
@@ -338,7 +340,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 
 		Uri newUri = Uri.parse(uri);
 		Uri tempUri = null;
-		File vCardFile = IcVCardBuilder.createVCard(
+		File vCardFile = MyVcardBuilder.createVCard(
 				getActivity(), contactData);
 		try {
 			newUriParsable = URI.create(mPreferences.getString("uri",
@@ -354,7 +356,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 
 		Log.i("New Uri from ContactsBook: ", newUri.toString());
 
-		String vCardString = IcVCardBuilder.createVCardString(
+		String vCardString = MyVcardBuilder.createVCardString(
 				getActivity(), newUri);
 		String tempVcardString = null;
 
@@ -722,4 +724,15 @@ public class MainFragment extends Fragment implements OnClickListener {
 
 	}
 
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		  mPreferencesForDest = getActivity().getSharedPreferences("dest", 0);
+		  mPreferences = getActivity().getSharedPreferences("your_file_name", 0);
+		  mPreferencesForDest.edit().remove("number").commit();
+		  mPreferences.edit().remove("yourStringName").commit();
+		  mPreferences.edit().remove("nameDisplay").commit();
+		  mPreferences.edit().remove("vcard").commit();
+	}
 }

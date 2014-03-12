@@ -1,14 +1,18 @@
 package com.mike.vcardparsingupdate;
 
+import com.mike.tutorial.HelpActivity;
 import com.mike.vcardparsingapplication.R;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuItem;
 
 @SuppressLint("NewApi")
 public class TabActivity extends FragmentActivity implements
@@ -21,7 +25,6 @@ public class TabActivity extends FragmentActivity implements
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		setContentView(R.layout.mainfragment_activity);
 		
@@ -75,6 +78,33 @@ public class TabActivity extends FragmentActivity implements
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction arg1) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		
+		
+		switch (item.getItemId()) {
+		
+		case R.id.helpmenu:
+			
+			Intent helpIntent = new Intent(this, HelpActivity.class);
+			helpIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			startActivity(helpIntent);
+			return true;
+			
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 		
 	}
 

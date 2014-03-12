@@ -33,7 +33,9 @@ import android.widget.QuickContactBadge;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mike.pages.MainFragment;
 import com.mike.utils.Utils;
+import com.mike.vcardparsingupdate.TabActivity;
 
 public class DestinationBook extends Activity implements OnItemClickListener{
 	
@@ -274,7 +276,8 @@ public class DestinationBook extends Activity implements OnItemClickListener{
 		    setResult(RESULT_OK,returnDestinationNumber);
 		    finish();
 		    
-		    Intent myIntent = new Intent(DestinationBook.this, MainActivity.class);  
+		    //Intent myIntent = new Intent(DestinationBook.this, MainActivity.class);  
+		    Intent myIntent = new Intent(DestinationBook.this, TabActivity.class);  
 		   
 		    myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		    myIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

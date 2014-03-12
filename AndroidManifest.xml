@@ -36,6 +36,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity android:name="com.mike.vcardparsingapplication.MainActivity"></activity>
+       
         <activity
             android:name="com.mike.vcardparsingapplication.ContactsBook"
             android:hardwareAccelerated="true"

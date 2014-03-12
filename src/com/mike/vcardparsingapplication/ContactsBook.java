@@ -36,8 +36,10 @@ import android.widget.ListView;
 import android.widget.QuickContactBadge;
 import android.widget.TextView;
 
+import com.mike.pages.MainFragment;
 import com.mike.utils.IcVCardBuilder;
 import com.mike.utils.Utils;
+import com.mike.vcardparsingupdate.TabActivity;
 
 public class ContactsBook extends Activity implements OnItemClickListener{
 	
@@ -311,8 +313,9 @@ public class ContactsBook extends Activity implements OnItemClickListener{
 		    
 		    
 		    
-		    Intent myIntent = new Intent(ContactsBook.this, MainActivity.class);  
+		    //Intent myIntent = new Intent(ContactsBook.this, MainActivity.class);  
 		   
+		    Intent myIntent = new Intent(ContactsBook.this, TabActivity.class); 
 		    myIntent.setType("text/x-vcard");
 		    myIntent.putExtra("uri", uri);
 		    myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

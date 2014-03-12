@@ -17,7 +17,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
-        android:background="#A9A9A9"
+        android:background="#E0EEEE"
         android:orientation="vertical"
         android:padding="7dp" >
 
@@ -97,20 +97,20 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <LinearLayout
+                android:id="@+id/contact_listfor_destination"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/gradient"
                 android:gravity="center"
-                android:orientation="horizontal" 
-                android:id="@+id/contact_listfor_destination">
+                android:orientation="horizontal" >
 
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@drawable/contact_icon" 
-                    android:layout_marginLeft="5dp"/>
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/contact_icon" />
 
                 <TextView
                     android:id="@+id/select_contact_listfor_destination"
@@ -136,20 +136,20 @@
                 android:textColor="#404040" />
 
             <LinearLayout
+                android:id="@+id/contact_listfor_contactbook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/gradient"
                 android:gravity="center"
-                android:orientation="horizontal" 
-                android:id="@+id/contact_listfor_contactbook">
+                android:orientation="horizontal" >
 
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@drawable/contact_icon" 
-                    android:layout_marginLeft="5dp"/>
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/contact_icon" />
 
                 <TextView
                     android:id="@+id/select_contact_list"
@@ -178,7 +178,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#F0E68C"
+                android:background="#96CDCD"
                 android:orientation="vertical" >
 
                 <LinearLayout
@@ -271,8 +271,24 @@
                         android:visibility="gone" >
                     </EditText>
                 </LinearLayout>
-
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/contact_listfor_destination"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/gradient"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/messageicon" />
+
                 <TextView
                     android:id="@+id/send_message_with_contact_selected"
                     android:layout_width="wrap_content"
@@ -285,6 +301,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#ff669900"
                     android:textStyle="bold" />
+            </LinearLayout>
 
             <View
                 android:layout_width="wrap_content"
@@ -323,25 +340,42 @@
                     android:id="@+id/extracted_vCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#F0E68C"
+                    android:background="#96CDCD"
                     android:padding="7dp"
                     android:text="@string/vcard_result"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#333333" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/send_message_with_vcard"
+            <LinearLayout
+                android:id="@+id/contact_listfor_destination"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/gradient"
-                android:padding="7dp"
-                android:text="@string/send_vcard"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#ff669900"
-                android:textStyle="bold" />
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/messageicon" />
+
+                <TextView
+                    android:id="@+id/send_message_with_vcard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/gradient"
+                    android:padding="7dp"
+                    android:text="@string/send_vcard"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#ff669900"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <View
                 android:layout_width="wrap_content"
@@ -374,7 +408,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#F0E68C"
+                android:background="#96CDCD"
                 android:orientation="vertical" >
 
                 <LinearLayout
@@ -462,8 +496,24 @@
                         android:textStyle="italic" >
                     </EditText>
                 </LinearLayout>
-
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/contact_listfor_destination"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/gradient"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/messageicon" />
+
                 <TextView
                     android:id="@+id/send_message_with_edited_information"
                     android:layout_width="wrap_content"
@@ -476,6 +526,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#ff669900"
                     android:textStyle="bold" />
+            </LinearLayout>
 
             <View
                 android:layout_width="wrap_content"

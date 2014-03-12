@@ -1,7 +1,6 @@
 package com.mike.pages;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.net.URI;
 import java.util.ArrayList;
 
@@ -29,7 +28,6 @@ import android.widget.Toast;
 
 import com.mike.utils.IcVCardBuilder;
 import com.mike.vcardparsingapplication.ContactsBook;
-import com.mike.vcardparsingapplication.ContactsBook.ItemAdapter;
 import com.mike.vcardparsingapplication.DestinationBook;
 import com.mike.vcardparsingapplication.R;
 
@@ -42,10 +40,9 @@ public class MainFragment extends Fragment implements OnClickListener {
 	private TextView send_message_for_contactbook, send_message_for_vcard,
 			send_message_for_edited_info, select_contactfor_destination,
 			select_for_contactlist, extractedvCard;
-	private ContactsBook mContactsBook;
-	private ItemAdapter mItemAdapter;
+
 	private SharedPreferences mPreferences;
-	private SharedPreferences prefs;
+
 	private String number;
 	private String name;
 	private String contact_name;
@@ -57,7 +54,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 	private String myPhoneNumber;
 	String editTextValue;
 	private Context context;
-	private FileOutputStream mFileOutputStream;
+
 	String phoneDisplay;
 	String uri;
 	URI newUriParsable;
@@ -78,7 +75,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 	private Intent mDeliveryIntent;
 	private static final String SMS_SEND_ACTION = "CTS_SMS_SEND_ACTION";
 	private static final String SMS_DELIVERY_ACTION = "CTS_SMS_DELIVERY_ACTION";
-	private File file;
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

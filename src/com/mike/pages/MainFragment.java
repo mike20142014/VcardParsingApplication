@@ -26,6 +26,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mike.database.DatabaseHandler;
+import com.mike.database.ModelClass;
+import com.mike.pages.HistoryFragment.ListAdapter;
 import com.mike.utils.MyVcardBuilder;
 import com.mike.vcardparsingapplication.ContactsBook;
 import com.mike.vcardparsingapplication.DestinationBook;
@@ -42,6 +45,8 @@ public class MainFragment extends Fragment implements OnClickListener {
 			select_for_contactlist, extractedvCard;
 
 	private SharedPreferences mPreferences,mPreferencesForDest;
+	
+	ListAdapter mAdapter;
 
 	private String number;
 	private String name;
@@ -58,6 +63,8 @@ public class MainFragment extends Fragment implements OnClickListener {
 	String phoneDisplay;
 	String uri;
 	URI newUriParsable;
+	
+	DatabaseHandler db ;
 
 	public final static int RESULT_PICK_CONTACT_CONTACTBOOK = 1;
 	public final static int RESULT_PICK_CONTACT_DESTINATIONBOOK = 2;
@@ -264,6 +271,12 @@ public class MainFragment extends Fragment implements OnClickListener {
 						+ contact_list_address.getText().toString() + "\n"
 						+ "\n" + "Thank you";
 
+				
+				db = new DatabaseHandler(getActivity());
+				db.addContact(new ModelClass(destNumber,addedText));
+				
+				Log.i("Data from DB: ", destNumber + "::" + addedText);
+				
 				mSendIntent = new Intent(SMS_SEND_ACTION);
 				mDeliveryIntent = new Intent(SMS_DELIVERY_ACTION);
 				SmsManager sms = SmsManager.getDefault();
@@ -291,16 +304,16 @@ public class MainFragment extends Fragment implements OnClickListener {
 
 			} else {
 
-				Toast.makeText(context.getApplicationContext(),
+				Toast.makeText(getActivity(),
 						"Message not Sent, serice only available for US.",
 						Toast.LENGTH_LONG).show();
 				destination_number.setText("");
 
 			}
 
-			if (destNumber.length() < 10) {
+			if (destination_number.getText().length() < 10) {
 
-				Toast.makeText(context.getApplicationContext(),
+				Toast.makeText(getActivity(),
 						"Please enter a valid destination number.",
 						Toast.LENGTH_LONG).show();
 				// destination_number.setText("");
@@ -308,7 +321,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 			if (destination_number.getText().toString().startsWith("1800")) {
 
 				Toast.makeText(
-						context.getApplicationContext(),
+						getActivity(),
 						"Message not Sent, " + "\t"
 								+ "1800 - Toll Free numbers not supported",
 						Toast.LENGTH_LONG).show();
@@ -318,7 +331,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 
 		} else {
 
-			Toast.makeText(context.getApplicationContext(),
+			Toast.makeText(getActivity(),
 					"Message not Sent, Destination number is null.",
 					Toast.LENGTH_LONG).show();
 
@@ -707,26 +720,31 @@ public class MainFragment extends Fragment implements OnClickListener {
 
 		case R.id.send_message_with_contact_selected:
 
+			//SaveToDb();
 			sendMessageForContactPhoneBook();
+			//mAdapter.notifyDataSetChanged();
+			
 			break;
 
 		case R.id.send_message_with_vcard:
 
+			//SaveToDb();
 			getActualVcard();
 			break;
 
 		case R.id.send_message_with_edited_information:
 
+			//SaveToDb();
 			sendMessageForEditedInfo();
 			break;
 
 		}
 
 	}
-
+	
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
+		
 		super.onDestroy();
 		  mPreferencesForDest = getActivity().getSharedPreferences("dest", 0);
 		  mPreferences = getActivity().getSharedPreferences("your_file_name", 0);
